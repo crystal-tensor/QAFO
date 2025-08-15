@@ -1,0 +1,11 @@
+{
+  "n_tau": 10,
+  "n_ntb": 8,
+  "n_tech": 6,
+  "n_access": 6,
+  "delta_t_options": [
+    30,
+    60,
+    90
+  ]
+}

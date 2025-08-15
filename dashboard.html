@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Trade Negotiation Model Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 24px; }
+        h1, h2 { color: #2c3e50; }
+        img { max-width: 100%; height: auto; }
+        table { border-collapse: collapse; width: 100%; margin-bottom: 24px; }
+        th, td { border: 1px solid #ddd; padding: 8px 12px; text-align: center; }
+        .switcher { margin-bottom: 20px; }
+        .small { color: #7f8c8d; font-size: 0.9em; }
+        .en, .zh { display: none; }
+        .en.active, .zh.active { display: block; }
+    </style>
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="switcher">
+        <button id="switch-en" onclick="switchLang('en')">English</button>
+        <button id="switch-zh" onclick="switchLang('zh')">中文</button>
+    </div>
+
+    <!-- Title Section -->
+    <h1 id="title" class="en active">Quantum Trade Negotiation Model (QTNM) Dashboard</h1>
+    <h1 id="title-zh" class="zh">量子谈判模型（QTNM）仪表盘</h1>
+
+    <!-- Overview Section -->
+    <h2 id="overview-title" class="en active">Overview</h2>
+    <p id="overview-text" class="en active">
+        The Quantum Trade Negotiation Model (QTNM) aims to optimize trade negotiations, such as US-China trade talks, using quantum computing techniques. By employing quantum annealing and variational quantum algorithms (VQE), QTNM generates Pareto-efficient trade packages that maximize mutual benefits for both parties. The model evaluates the impact of tariff reductions, non-tariff barriers, technology restrictions, and market access commitments on economic outcomes.
+    </p>
+    <h2 id="overview-title-zh" class="zh">概述</h2>
+    <p id="overview-text-zh" class="zh">
+        量子谈判模型（QTNM）旨在通过量子计算优化贸易谈判，如中美贸易谈判。通过使用量子退火和变分量子算法（VQE），QTNM生成帕累托效率的贸易套餐，以最大化双方的共同利益。该模型评估关税减免、非关税壁垒、技术限制和市场准入承诺对经济结果的影响。
+    </p>
+
+    <!-- Why QTNM Section -->
+    <h2 id="why-title" class="en active">Why QTNM?</h2>
+    <p id="why-text" class="en active">
+        Traditional trade negotiation models often rely on classical optimization methods that are computationally expensive and struggle with non-linearities and large datasets. QTNM leverages quantum computing to provide faster, more accurate, and scalable solutions to multi-objective optimization problems. It enables real-time scenario analysis and helps negotiators make better-informed decisions.
+    </p>
+    <h2 id="why-title-zh" class="zh">为什么选择QTNM？</h2>
+    <p id="why-text-zh" class="zh">
+        传统的贸易谈判模型通常依赖于经典优化方法，这些方法计算开销大，且在处理非线性和大数据集时效率较低。QTNM利用量子计算提供更快、更精确、更具可扩展性的解决方案，能够实时进行情景分析，帮助谈判者做出更有信息支撑的决策。
+    </p>
+
+    <!-- How QTNM Works Section -->
+    <h2 id="how-title" class="en active">How QTNM Works</h2>
+    <p id="how-text" class="en active">
+        QTNM models trade negotiations as a multi-objective optimization problem, where the goal is to maximize the US and China’s composite scores, which account for inflation, job creation, trade balance, technological access, and supply chain stability. The model employs quantum annealing for global search and VQE for local refinement to find Pareto-efficient solutions.
+    </p>
+    <h2 id="how-title-zh" class="zh">QTNM如何工作</h2>
+    <p id="how-text-zh" class="zh">
+        QTNM将贸易谈判建模为多目标优化问题，目标是最大化美国和中国的综合得分，涵盖通货膨胀、就业创造、贸易差额、技术可得性和供应链稳定性。该模型利用量子退火进行全局搜索，使用VQE进行局部优化，以找到帕累托最优解。
+    </p>
+
+    <!-- Data and Interfaces Section -->
+    <h2 id="data-title" class="en active">Data and Interfaces</h2>
+    <p id="data-text" class="en active">
+        QTNM uses both synthetic coefficients and empirical data to evaluate the impact of different negotiation scenarios. The model can integrate with external data sources, such as trade statistics, inflation rates, employment figures, and supply chain metrics. Data interfaces are available via REST APIs or CSV uploads.
+    </p>
+    <h2 id="data-title-zh" class="zh">数据和接口</h2>
+    <p id="data-text-zh" class="zh">
+        QTNM使用合成系数和实证数据评估不同谈判情景的影响。该模型可以与外部数据源集成，如贸易统计、通货膨胀率、就业数据和供应链指标。数据接口可通过REST API或CSV上传进行连接。
+    </p>
+
+    <!-- Technology Section -->
+    <h2 id="tech-title" class="en active">Technology Used</h2>
+    <p id="tech-text" class="en active">
+        QTNM uses Quantum Annealing (QA) and Variational Quantum Eigensolver (VQE) to solve optimization problems in trade negotiations. These quantum algorithms are deployed on both simulators and real quantum hardware to ensure scalability and accuracy.
+    </p>
+    <h2 id="tech-title-zh" class="zh">使用的技术</h2>
+    <p id="tech-text-zh" class="zh">
+        QTNM使用量子退火（QA）和变分量子求解器（VQE）解决贸易谈判中的优化问题。这些量子算法既可在模拟器上运行，也可在真实的量子硬件上运行，以确保可扩展性和准确性。
+    </p>
+
+    <!-- Visualizations and Results -->
+    <h2 id="results-title" class="en active">Visualization and Results</h2>
+    <p id="results-text" class="en active">
+        Below, you can see the visual representation of the Pareto Frontier, three representative negotiation menus, and the Quantum Negotiation Frontier Index (Q-NFI). These results are generated dynamically based on real-time inputs.
+    </p>
+    <h2 id="results-title-zh" class="zh">可视化和结果</h2>
+    <p id="results-text-zh" class="zh">
+        以下是帕累托前沿的可视化图、三套代表性谈判菜单和量子谈判前沿指数（Q-NFI）。这些结果是基于实时输入动态生成的。
+    </p>
+
+    <!-- Dynamic Graphs -->
+    <h2 id="pareto-title" class="en active">Pareto Frontier</h2>
+    <img src="pareto_frontier.png" alt="Pareto Frontier">
+    <h2 id="pareto-title-zh" class="zh">帕累托前沿</h2>
+    <img src="pareto_frontier.png" alt="帕累托前沿">
+
+    <h2 id="menus-title" class="en active">Negotiation Menus</h2>
+    <img src="menus_on_frontier.png" alt="Negotiation Menus">
+    <h2 id="menus-title-zh" class="zh">谈判菜单</h2>
+    <img src="menus_on_frontier.png" alt="谈判菜单">
+
+    <h2 id="qnfi-title" class="en active">Q-NFI (Quantum Negotiation Frontier Index)</h2>
+    <img src="qnfi_weekly.png" alt="Q-NFI Weekly">
+    <h2 id="qnfi-title-zh" class="zh">量子谈判前沿指数（Q-NFI）</h2>
+    <img src="qnfi_weekly.png" alt="Q-NFI 周度">
+</body>
+<script>
+    function switchLang(lang) {
+        document.querySelector('.en').classList.remove('active');
+        document.querySelector('.zh').classList.remove('active');
+        document.querySelector(`#switch-${lang}`).classList.add('active');
+        document.querySelector(`#${lang}`).classList.add('active');
+    }
+</script>
+</html>

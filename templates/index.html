@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ trans.analysis_title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>{{ trans.analysis_title }}</h1>
+        <div class="language-switcher">
+            <a href="?lang=zh" {% if lang == 'zh' %}class="active"{% endif %}>中文</a> | 
+            <a href="?lang=en" {% if lang == 'en' %}class="active"{% endif %}>English</a>
+        </div>
+    </header>
+
+    <section class="summary">
+        <h2>{{ trans.recommendation }}</h2>
+        <div class="menus">
+            {% for menu in menus %}
+            <div class="menu-card">
+                <h3>{{ menu.label }}</h3>
+                <div class="score-display">
+                    <span class="score us-score">US: {{ "%.3f"|format(menu.us_score) }}</span>
+                    <span class="score cn-score">CN: {{ "%.3f"|format(menu.cn_score) }}</span>
+                </div>
+                <div class="details">
+                    <p class="time-frame">{{ trans.delta_t }}: {{ menu.delta_t }} {{ trans.days }}</p>
+                    <ul class="metrics">
+                        <li><span class="metric-label">{{ trans.tariff }}:</span> <span class="metric-value">{{ menu.tau_sum }}</span></li>
+                        <li><span class="metric-label">{{ trans.ntb }}:</span> <span class="metric-value">{{ menu.ntb_sum }}</span></li>
+                        <li><span class="metric-label">{{ trans.tech }}:</span> <span class="metric-value">{{ menu.tech_sum }}</span></li>
+                        <li><span class="metric-label">{{ trans.access }}:</span> <span class="metric-value">{{ menu.access_sum }}</span></li>
+                    </ul>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="qafo-animation">
+        <h2>QAFO {{ trans.optimization_process }}</h2>
+        
+        <p class="explanation">
+            {% if lang == 'zh' %}
+            此动画展示了量子自适应融合优化(QAFO)框架在中美贸易谈判中的帕累托前沿演化过程。
+            蓝色点表示帕累托最优解，灰色点表示候选解。优化过程展示了如何在多目标空间中寻找双方共赢方案。
+            {% else %}
+            This animation demonstrates the Quantum Adaptive Fusion Optimization (QAFO) framework 
+            for US-China trade negotiations. Blue dots represent Pareto optimal solutions, 
+            gray dots are candidate solutions. The process shows how to find win-win solutions 
+            in multi-objective space.
+            {% endif %}
+        </p>
+        
+        {% if gif_path and gif_path != 'images/qafo_optimization.gif' %}
+        <div class="animation-container">
+            <img src="{{ url_for('output_file', filename='qafo_optimization.gif') }}" alt="QAFO Optimization Animation" class="optimization-gif">
+        </div>
+        {% endif %}
+    </section>
+
+    <section class="qnfi-chart">
+        <h2>{{ trans.qnfi_title }}</h2>
+        
+        <p class="explanation">
+            {% if lang == 'zh' %}
+            量子谈判前沿指数(Q-NFI)衡量谈判方案对双方的公平程度，计算公式：
+            Q-NFI = max<sub>x∈前沿</sub> min(US(x), CN(x))
+            指数越高表明方案对双方越公平。
+            {% else %}
+            Quantum Negotiation Frontier Index (Q-NFI) measures the fairness of negotiation packages:
+            Q-NFI = max<sub>x∈Frontier</sub> min(US(x), CN(x))
+            Higher values indicate more equitable solutions for both parties.
+            {% endif %}
+        </p>
+        
+        <div class="chart-container">
+            <img src="{{ url_for('output_file', filename='qnfi_weekly.png') }}" alt="Q-NFI Weekly Chart" class="chart-image">
+        </div>
+        
+        {% if qnfi_data %}
+        <div class="data-table">
+            <h3>{% if lang == 'zh' %}历史数据{% else %}Historical Data{% endif %}</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>{% if lang == 'zh' %}周次{% else %}Week{% endif %}</th>
+                        <th>Q-NFI</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in qnfi_data %}
+                    <tr>
+                        <td>{{ row.week }}</td>
+                        <td>{{ "%.3f"|format(row.QNFI) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </section>
+
+    <section class="pareto-chart">
+        <h2>{{ trans.pareto_title }}</h2>
+        
+        <p class="explanation">
+            {% if lang == 'zh' %}
+            帕累托前沿展示了所有可能的谈判方案中，无法在不损害一方利益的情况下改善另一方利益的解集。
+            前沿上的每个点都代表一个帕累托最优的谈判方案。
+            {% else %}
+            The Pareto frontier shows the set of solutions where it's impossible to improve one party's 
+            outcome without harming the other party. Each point on the frontier represents a Pareto optimal solution.
+            {% endif %}
+        </p>
+        
+        <div class="chart-container">
+            <img src="{{ url_for('output_file', filename='pareto_frontier.png') }}" alt="Pareto Frontier" class="chart-image">
+        </div>
+    </section>
+
+    <section class="menus-chart">
+        <h2>{{ trans.menu_title }}</h2>
+        
+        <p class="explanation">
+            {% if lang == 'zh' %}
+            此图显示了三个代表性谈判菜单在帕累托前沿上的位置，帮助理解不同方案的权衡关系。
+            {% else %}
+            This chart shows the position of three representative negotiation menus on the Pareto frontier, 
+            helping to understand the trade-offs between different packages.
+            {% endif %}
+        </p>
+        
+        <div class="chart-container">
+            <img src="{{ url_for('output_file', filename='menus_on_frontier.png') }}" alt="Negotiation Menus on Frontier" class="chart-image">
+        </div>
+    </section>
+
+    <footer>
+        <p>{% if lang == 'zh' %}量子贸易谈判模型 - 生成时间：{% else %}Quantum Trade Negotiation Model - Generated: {% endif %} {{ now }}</p>
+        <p class="model-info">{% if lang == 'zh' %}基于量子退火和变分量子算法的多目标优化模型{% else %}Multi-objective optimization model based on quantum annealing and variational quantum algorithms{% endif %}</p>
+    </footer>
+</body>
+</html>
