@@ -56,7 +56,93 @@ In US-China trade negotiations, we model the problem as a multi-objective optimi
 
 The execution flow of the QAFO algorithm is as follows:
 
-### 2.3 Key Technologies
+```
+1. Global Sampling Phase
+   - Randomly generate 2000 candidate solutions
+   - Evaluate objective function values for each solution
+   - Build initial Pareto frontier
+
+2. Local Refinement Phase
+   - Select top 100 solutions from frontier
+   - Perform 250 local searches for each solution
+   - Generate new solutions through mutation and crossover
+
+3. Frontier Update Phase
+   - Merge original and new solutions
+   - Recalculate Pareto frontier
+   - Record optimization process (generate GIF animation)
+
+4. Solution Selection Phase
+   - Select 3 representative solutions from frontier
+   - Correspond to conservative, balanced, and aggressive strategies
+```
+
+### 2.3 QAFO Algorithm Principles and Mathematical Formulations
+
+#### 2.3.1 Core Algorithm Principles
+
+QAFO combines two quantum-inspired optimization strategies:
+
+**Phase 1: Quantum Annealing-inspired Global Search**
+- **Objective**: Find diverse candidate solutions across the entire search space
+- **Method**: Random sampling with constraint satisfaction
+- **Mathematical Formulation**:
+  ```
+  For i = 1 to N_samples:
+      d_i = random_decision_space()
+      if satisfies_constraints(d_i):
+          candidates.append(evaluate_objectives(d_i))
+  ```
+
+**Phase 2: Variational Quantum-inspired Local Refinement**
+- **Objective**: Improve solution quality through local optimization
+- **Method**: Block-wise mutation and local search
+- **Mathematical Formulation**:
+  ```
+  For each solution s in top_frontier:
+      For iteration = 1 to max_iterations:
+          d_new = mutate_random_block(s.decision)
+          if satisfies_constraints(d_new):
+              s_new = evaluate_objectives(d_new)
+              if dominates(s_new, s):
+                  s = s_new
+  ```
+
+#### 2.3.2 Mathematical Formulations
+
+**Objective Functions**:
+```
+US_Score = 0.4 × f_inflation(τ, NTB) + 0.4 × f_jobs(τ, Access) + 0.2 × f_security(Tech)
+CN_Score = 0.4 × f_export(τ) + 0.35 × f_tech(Tech) + 0.25 × f_supply(NTB)
+```
+
+**Constraint Functions**:
+```
+C1: ∑Tech_i ≤ 3 (Technology restriction limit)
+C2: ∑Access_i ≥ max(1, 0.4 × ∑τ_i) (Market access balance)
+C3: ∑τ_i + ∑NTB_i ≤ 12 (if ΔT = 30) (Policy intensity constraint)
+C4: ∑τ_i + ∑NTB_i + ∑Tech_i + ∑Access_i > 0 (Non-zero policy constraint)
+```
+
+**Pareto Dominance**:
+```
+Solution A dominates Solution B if:
+∀i: A[i] ≥ B[i] AND ∃j: A[j] > B[j]
+```
+
+**Q-NFI Index**:
+```
+Q-NFI = max(min(US(x), CN(x))) for x ∈ Pareto_frontier
+```
+
+#### 2.3.3 Algorithm Complexity Analysis
+
+- **Time Complexity**: O(N_samples × N_refinement × N_iterations)
+- **Space Complexity**: O(N_samples × N_variables)
+- **Convergence**: Guaranteed convergence to Pareto frontier
+- **Scalability**: Linear scaling with problem size
+
+### 2.4 Key Technologies
 
 **Pareto Dominance Relationship**: Solution A dominates solution B if and only if A is no worse than B on all objectives and strictly better than B on at least one objective.
 
@@ -223,7 +309,6 @@ In today's increasingly deep globalization, scientific, fair, and efficient nego
 *This article is written based on actual application cases of QAFO framework. All data and charts come from real algorithm execution results. For more technical details or source code, please visit the project repository.*
 
 
-
 # 量子自适应融合优化框架（QAFO）在中美贸易谈判模拟中的创新应用
 
 ## 引言
@@ -303,7 +388,93 @@ QAFO算法的执行流程如下：
    - 分别对应保守、平衡、进取三种策略
 ```
 
-### 2.3 关键技术
+### 2.3 QAFO算法原理与数学公式
+
+#### 2.3.1 核心算法原理
+
+QAFO结合了两种量子启发的优化策略：
+
+**第一阶段：量子退火启发的全局搜索**
+- **目标**：在整个搜索空间中找到多样化的候选解
+- **方法**：满足约束的随机采样
+- **数学公式**：
+  ```
+  对于 i = 1 到 N_samples:
+      d_i = 随机决策空间()
+      如果 满足约束(d_i):
+          候选解.append(评估目标函数(d_i))
+  ```
+
+**第二阶段：变分量子启发的局部精化**
+- **目标**：通过局部优化提高解的质量
+- **方法**：分块变异和局部搜索
+- **数学公式**：
+  ```
+  对于前沿中的每个解 s:
+      对于 迭代 = 1 到 最大迭代次数:
+          d_新 = 随机块变异(s.决策)
+          如果 满足约束(d_新):
+              s_新 = 评估目标函数(d_新)
+              如果 支配(s_新, s):
+                  s = s_新
+  ```
+
+#### 2.3.2 数学公式
+
+**目标函数**：
+```
+美国得分 = 0.4 × f_通胀(τ, NTB) + 0.4 × f_就业(τ, Access) + 0.2 × f_安全(Tech)
+中国得分 = 0.4 × f_出口(τ) + 0.35 × f_技术(Tech) + 0.25 × f_供应链(NTB)
+```
+
+**约束函数**：
+```
+C1: ∑Tech_i ≤ 3 (科技限制总量控制)
+C2: ∑Access_i ≥ max(1, 0.4 × ∑τ_i) (市场准入与关税平衡)
+C3: ∑τ_i + ∑NTB_i ≤ 12 (如果 ΔT = 30) (政策强度约束)
+C4: ∑τ_i + ∑NTB_i + ∑Tech_i + ∑Access_i > 0 (非零政策约束)
+```
+
+**帕累托支配关系**：
+```
+解A支配解B当且仅当：
+∀i: A[i] ≥ B[i] 且 ∃j: A[j] > B[j]
+```
+
+**Q-NFI指数**：
+```
+Q-NFI = max(min(US(x), CN(x))) 其中 x ∈ 帕累托前沿
+```
+
+#### 2.3.3 算法复杂度分析
+
+- **时间复杂度**：O(N_samples × N_refinement × N_iterations)
+- **空间复杂度**：O(N_samples × N_variables)
+- **收敛性**：保证收敛到帕累托前沿
+- **可扩展性**：随问题规模线性增长
+
+```
+1. 全局采样阶段
+   - 随机生成2000个候选解
+   - 评估每个解的目标函数值
+   - 构建初始帕累托前沿
+
+2. 局部精化阶段
+   - 选择前沿上的前100个解
+   - 对每个解进行250次局部搜索
+   - 通过变异和交叉产生新解
+
+3. 前沿更新阶段
+   - 合并原始解和新解
+   - 重新计算帕累托前沿
+   - 记录优化过程（生成GIF动画）
+
+4. 解集选择阶段
+   - 从前沿中选择3个代表性解
+   - 分别对应保守、平衡、进取三种策略
+```
+
+### 2.4 关键技术
 
 **帕累托支配关系**：解A支配解B当且仅当A在所有目标上都不劣于B，且至少在一个目标上严格优于B。
 
